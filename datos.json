@@ -1,0 +1,18 @@
+{
+    "jugadores": {
+        "2435": {
+            "nombre": "Maria Isabel Nore\u00f1a",
+            "saldo": 30000.0,
+            "historial": [],
+            "estadisticas": {
+                "juegos_ganados": 0,
+                "juegos_perdidos": 0,
+                "total_apostado": 0
+            }
+        }
+    },
+    "colas_juegos": {
+        "tragamonedas": [],
+        "blackjack": []
+    }
+}
