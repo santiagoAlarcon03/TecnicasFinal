@@ -87,6 +87,7 @@ def tragamonedas():
 
         print(f"\n🎯 Ganancia total en la ronda: ${gananciasTotales}")
         print(f"💼 Saldo actualizado: ${wallet:.2f}")
+        datos['estadisticas_juegos']['tragamonedas'] += 1
         time.sleep(3)
 
     # Guardar cambios

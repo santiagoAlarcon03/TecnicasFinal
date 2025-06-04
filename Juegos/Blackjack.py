@@ -113,6 +113,7 @@ def blackjack():
 
         historial.push(resultado)
         print(f"💼 Saldo actualizado: ${wallet:.2f}")
+        datos['estadisticas_juegos']['blackjack'] += 1
         time.sleep(2)
 
     jugador['saldo'] = wallet

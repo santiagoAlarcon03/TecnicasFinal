@@ -8,22 +8,44 @@ def cargar_datos():
         'colas_juegos': {
             'tragamonedas': [],
             'blackjack': []
+        },
+        'estadisticas_juegos': {
+            'tragamonedas': 0,
+            'blackjack': 0
         }
     }
 
     if not os.path.exists('datos.json'):
         with open('datos.json', 'w') as f:
-            json.dump(datos_iniciales, f)
+            json.dump(datos_iniciales, f, indent=4)
         return datos_iniciales
-    
+
     try:
         with open('datos.json', 'r') as f:
-            return json.load(f)
+            datos = json.load(f)
     except json.JSONDecodeError:
-        # Archivo vacío o corrupto: lo inicializamos con datos base
+        # Archivo vacío o corrupto: lo inicializamos
         with open('datos.json', 'w') as f:
-            json.dump(datos_iniciales, f)
+            json.dump(datos_iniciales, f, indent=4)
         return datos_iniciales
+
+    # Aseguramos que las claves necesarias existan (útil si se agregan en versiones futuras)
+    if 'jugadores' not in datos:
+        datos['jugadores'] = {}
+
+    if 'colas_juegos' not in datos:
+        datos['colas_juegos'] = {
+            'tragamonedas': [],
+            'blackjack': []
+        }
+
+    if 'estadisticas_juegos' not in datos:
+        datos['estadisticas_juegos'] = {
+            'tragamonedas': 0,
+            'blackjack': 0
+        }
+
+    return datos
 
 def guardar_datos(datos):
     with open('datos.json', 'w') as f:

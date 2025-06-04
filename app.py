@@ -37,6 +37,8 @@ def generar_reportes():
     print("1. Jugadores con mayor saldo")
     print("2. Ver historial de un jugador")
     print("3. Ranking por juegos ganados")
+    print("4. Jugadores con más juegos perdidos")
+    print("5. Juegos con mayor cantidad de participaciones")
 
     opcion = input("Seleccione una opción: ")
 
@@ -61,6 +63,20 @@ def generar_reportes():
         for id_j, info in ranking[:5]:
             ganados = info['estadisticas']['juegos_ganados']
             print(f"{info['nombre']} (ID: {id_j}) - Juegos Ganados: {ganados}")
+    
+    elif opcion == "4":
+        print("\n--- Jugadores con más juegos perdidos ---")
+        ranking = sorted(jugadores.items(), key=lambda x: x[1]['estadisticas']['juegos_perdidos'], reverse=True)
+        for id_j, info in ranking[:5]:
+            print(f"{info['nombre']} (ID: {id_j}) - Juegos Perdidos: {info['estadisticas']['juegos_perdidos']}")
+
+    elif opcion == "5":
+        print("\n--- Juegos con mayor cantidad de participaciones ---")
+        estadisticas = datos.get('estadisticas_juegos', {})
+        ranking = sorted(estadisticas.items(), key=lambda x: x[1], reverse=True)
+        for juego, cantidad in ranking:
+            print(f"{juego.capitalize()}: {cantidad} partidas jugadas")
+
     else:
         print("Opción no válida.")
 

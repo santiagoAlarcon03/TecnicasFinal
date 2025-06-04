@@ -16,19 +16,46 @@
         },
         "123": {
             "nombre": "pedro",
-            "saldo": 50000.0,
+            "saldo": 59040.0,
             "historial": [
-                "Tragamonedas: Apost\u00f3 $2000, gan\u00f3 $100000"
+                "Tragamonedas: Apost\u00f3 $2000, gan\u00f3 $100000",
+                "BlackJack: Apost\u00f3 $10000.0, perdi\u00f3.",
+                "BlackJack: Apost\u00f3 $10000.0, gan\u00f3 $20000.0",
+                "Tragamonedas: Apost\u00f3 $1000, gan\u00f3 $10000",
+                "Tragamonedas: Apost\u00f3 $10, gan\u00f3 $50"
             ],
             "estadisticas": {
-                "juegos_ganados": 1,
-                "juegos_perdidos": 0,
-                "total_apostado": 2000
+                "juegos_ganados": 4,
+                "juegos_perdidos": 1,
+                "total_apostado": 23010.0
+            }
+        },
+        "456": {
+            "nombre": "andrea",
+            "saldo": 1111000.0,
+            "historial": [
+                "Tragamonedas: Apost\u00f3 $1000, gan\u00f3 $0",
+                "BlackJack: Apost\u00f3 $1000.0, gan\u00f3 $2000.0",
+                "BlackJack: Apost\u00f3 $1000.0, gan\u00f3 $2000.0",
+                "Tragamonedas: Apost\u00f3 $10000, gan\u00f3 $1050000",
+                "BlackJack: Apost\u00f3 $100000.0, perdi\u00f3.",
+                "BlackJack: Apost\u00f3 $1000.0, perdi\u00f3.",
+                "BlackJack: Apost\u00f3 $150000.0, gan\u00f3 $300000.0",
+                "BlackJack: Apost\u00f3 $1000.0, gan\u00f3 $2000.0"
+            ],
+            "estadisticas": {
+                "juegos_ganados": 5,
+                "juegos_perdidos": 3,
+                "total_apostado": 265000.0
             }
         }
     },
     "colas_juegos": {
         "tragamonedas": [],
         "blackjack": []
+    },
+    "estadisticas_juegos": {
+        "tragamonedas": 4,
+        "blackjack": 6
     }
 }
