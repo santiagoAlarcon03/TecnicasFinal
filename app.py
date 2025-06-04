@@ -4,6 +4,7 @@ from Juegos.Blackjack import blackjack
 from utils import Despejar, cargar_datos
 from Mesas import gestionar_mesas
 from MesasService import MesaService
+from backtracking_tragamonedas import menu_optimizacion
 
 def mostrar_menu():
     print("\n--- CASINO PYTHON ---")
@@ -17,6 +18,7 @@ def mostrar_menu_juegos():
     print("\n=== JUEGOS DISPONIBLES ===")
     print("1. BlackJack")
     print("2. Tragamonedas")
+    print("3. Optimizar estrategia de tragamonedas con IA (Backtracking)")
     print("0. Volver al menú principal")
 
 def jugar():
@@ -27,11 +29,14 @@ def jugar():
         if opcion == "1":
             Despejar()
             mesa = MesaService()
-            blackjack(mesa)     
+            blackjack(mesa) 
         elif opcion == "2":
             Despejar()
             mesa = MesaService()
-            tragamonedas(mesa)
+            tragamonedas(mesa)    
+        elif opcion == "3":
+            Despejar()
+            menu_optimizacion()
         elif opcion == "0":
             break
         else:

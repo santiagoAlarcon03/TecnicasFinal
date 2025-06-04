@@ -77,16 +77,3 @@ def serializar_datos(datos):
     
     return datos_guardar
 
-def deserializar_datos(datos_crudos):                                    
-                                                                       #It makes the JSON´S data to objects
-    datos = {
-        'jugadores': {},
-        'colas_juegos': datos_crudos['colas_juegos'].copy()
-    }
-    
-    for id_jugador, jugador in datos_crudos['jugadores'].items():
-        jugador_copy = jugador.copy()
-        jugador_copy['historial'] = Pila.desde_lista(jugador.get('historial', []))
-        datos['jugadores'][id_jugador] = jugador_copy
-    
-    return datos
