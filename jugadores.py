@@ -62,10 +62,12 @@ def gestionar_jugadores():
         elif opcion == "2":
             consultar_jugador()
         elif opcion == "3":
-            eliminar_jugador()
+            modificar_jugador()
         elif opcion == "4":
-            listar_jugadores()
+            eliminar_jugador()
         elif opcion == "5":
+            listar_jugadores()
+        elif opcion == "6":
             break
         else:
             print("Opción no válida. Intente nuevamente.")
@@ -89,6 +91,43 @@ def consultar_jugador():
             print(f"- {accion}")
     else:
         print("Jugador no encontrado.")
+
+
+
+def modificar_jugador():
+    datos = cargar_datos()
+    id_jugador = input("Ingrese el ID del jugador que desea modificar: ").upper()
+
+    if id_jugador not in datos['jugadores']:
+        print(" Jugador no encontrado.")
+        return
+
+    jugador = datos['jugadores'][id_jugador]
+    print(f"\n--- Modificando a {jugador['nombre']} ---")
+
+    nuevo_nombre = input("Nuevo nombre (Enter para mantener actual): ").strip()
+    if nuevo_nombre:
+        jugador['nombre'] = nuevo_nombre
+
+    while True:
+        print(f"Saldo actual: {jugador['saldo']}")
+        nuevo_saldo = input("Nuevo saldo (Enter para mantener actual): ").strip()
+        if not nuevo_saldo:
+            break
+        try:
+            saldo_float = float(nuevo_saldo)
+            if saldo_float < 0:
+                print(" El saldo no puede ser negativo.")
+            else:
+                jugador['saldo'] = saldo_float
+                break
+        except ValueError:
+            print(" Ingrese un valor numérico válido.")
+
+    datos['jugadores'][id_jugador] = jugador
+    guardar_datos(datos)
+    print(" Jugador modificado con éxito.")
+
 
 
 def eliminar_jugador():
