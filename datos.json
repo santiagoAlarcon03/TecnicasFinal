@@ -57,5 +57,41 @@
     "estadisticas_juegos": {
         "tragamonedas": 4,
         "blackjack": 6
-    }
+    },
+    "mesas": [
+        {
+            "mesa_id": "M1",
+            "juego": "tragamonedas",
+            "canJugadores": 1,
+            "activa": true,
+            "jugadores": [
+                "123"
+            ],
+            "cola_espera": []
+        },
+        {
+            "mesa_id": "M2",
+            "juego": "blackjack",
+            "canJugadores": 3,
+            "activa": true,
+            "jugadores": [],
+            "cola_espera": []
+        },
+        {
+            "mesa_id": "M3",
+            "juego": "tragamonedas",
+            "canJugadores": 1,
+            "activa": true,
+            "jugadores": [],
+            "cola_espera": []
+        },
+        {
+            "mesa_id": "M4",
+            "juego": "blackjack",
+            "canJugadores": 5,
+            "activa": true,
+            "jugadores": [],
+            "cola_espera": []
+        }
+    ]
 }

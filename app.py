@@ -2,13 +2,16 @@ from jugadores import gestionar_jugadores
 from Juegos.Tragamonedas import tragamonedas
 from Juegos.Blackjack import blackjack
 from utils import cargar_datos
-
+from Mesas import gestionar_mesas
+from MesasService import MesaService
 def mostrar_menu():
     print("\n--- CASINO PYTHON ---")
     print("1. Gestión de Jugadores")
     print("2. Jugar")
-    print("3. Reportes")
-    print("4. Salir")
+    print("3. Gestión de Juegos")
+    print("4. Gestión de mesas")
+    print("5. Reportes")
+    print("6. Salir")
 
 def mostrar_menu_juegos():
     print("\n=== JUEGOS DISPONIBLES ===")
@@ -22,7 +25,8 @@ def jugar():
         opcion = input("Seleccione un juego: ")
 
         if opcion == "1":
-            blackjack()
+            mesa = MesaService()
+            blackjack(mesa)     
         elif opcion == "2":
             tragamonedas()
         elif opcion == "0":
@@ -88,10 +92,14 @@ def main():
         if opcion == "1":
             gestionar_jugadores()
         elif opcion == "2":
-            jugar()  # 👈 
+            jugar() 
         elif opcion == "3":
-            generar_reportes() 
+            gestionar_juegos()
         elif opcion == "4":
+            gestionar_mesas()
+        elif opcion == "5":
+            generar_reportes() 
+        elif opcion == "6":
             print("¡Gracias por visitar nuestro casino!")
             break
         else:

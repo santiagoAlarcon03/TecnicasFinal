@@ -1,10 +1,48 @@
 import random
 import time
+from MesasService import MesaService
 from utils import cargar_datos, guardar_datos
 from jugadores import Pila
 
-def blackjack():
+def blackjack(mesa):
+
     datos = cargar_datos()
+    # Buscar mesas disponibles para blackjack (juego guardado como string)
+    mesas_disponibles = [m for m in MesaService.mesas if m['juego'].lower() == "blackjack" and m['activa']]
+
+    if not mesas_disponibles:
+        print("No hay mesas disponibles para BlackJack.")
+        input("\nPresione Enter para volver...")
+        return
+
+    # Mostrar mesas disponibles
+    print("\nMesas disponibles para BlackJack:")
+    for i, mesa in enumerate(mesas_disponibles, 1):
+        print(f"{i}. Mesa {mesa['mesa_id']} - Jugadores: {len(mesa['jugadores'])}/{mesa['canJugadores']}")
+
+    try:
+        seleccion = int(input("\nSeleccione una mesa: ")) - 1
+        if seleccion < 0 or seleccion >= len(mesas_disponibles):
+            print("Selección inválida.")
+            input("\nPresione Enter para volver...")
+            return
+    except ValueError:
+        print("Debe ingresar un número válido.")
+        input("\nPresione Enter para volver...")
+        return
+
+    mesa_seleccionada = mesas_disponibles[seleccion]
+
+    # Verificar que haya al menos 2 jugadores en la mesa
+    if len(mesa_seleccionada['jugadores']) < 2:
+        print("\nSe necesitan al menos 2 jugadores para jugar BlackJack.")
+        input("\nPresione Enter para volver...")
+        return
+
+    print(f"\nIniciando juego en la mesa {mesa_seleccionada['mesa_id']} con {len(mesa_seleccionada['jugadores'])} jugadores.")
+    
+    # Aquí seguiría la lógica para jugar blackjack...
+    input("\nPresione Enter para continuar...")
 
     print("\n🂡 BIENVENIDO A BLACKJACK 🂡")
     jugador_id = input("Ingrese su ID de jugador: ").strip().upper()
