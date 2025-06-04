@@ -1,28 +1,29 @@
 {
     "jugadores": {
         "2435": {
-            "nombre": "Maria Isabel Nore\u00f1a",
-            "saldo": 15000.0,
+            "nombre": "maria",
+            "saldo": 25000.0,
             "historial": [
-                "Tragamonedas: Apost\u00f3 $15000, gan\u00f3 $0"
+                "BlackJack: Apost\u00f3 $2000.0, perdi\u00f3.",
+                "BlackJack: Apost\u00f3 $3000.0, gan\u00f3 $6000.0",
+                "BlackJack: Apost\u00f3 $4000.0, gan\u00f3 $8000.0"
             ],
             "estadisticas": {
-                "juegos_ganados": 0,
+                "juegos_ganados": 2,
                 "juegos_perdidos": 1,
-                "total_apostado": 15000
+                "total_apostado": 9000.0
             }
         },
-        "12": {
-            "nombre": "da",
-            "saldo": 100.0,
+        "123": {
+            "nombre": "pedro",
+            "saldo": 108000.0,
             "historial": [
-                "Tragamonedas: Apost\u00f3 $10, gan\u00f3 $0",
-                "Tragamonedas: Apost\u00f3 $102, gan\u00f3 $0"
+                "Tragamonedas: Apost\u00f3 $2000, gan\u00f3 $100000"
             ],
             "estadisticas": {
-                "juegos_ganados": 0,
-                "juegos_perdidos": 2,
-                "total_apostado": 112
+                "juegos_ganados": 1,
+                "juegos_perdidos": 0,
+                "total_apostado": 2000
             }
         }
     },

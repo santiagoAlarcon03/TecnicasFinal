@@ -17,7 +17,10 @@ def blackjack():
     wallet = jugador['saldo']
     historial = jugador.get('historial', [])
     if isinstance(historial, list):
-        historial = Pila()
+        pila_historial = Pila()
+        for item in historial:
+            pila_historial.push(item)
+        historial = pila_historial
 
     cartas = ["2", "3", "4", "5", "6", "7", "8", "9", "10", "J", "Q", "K", "A"]
     palos = ['♠', '♥', '♦', '♣']
@@ -70,6 +73,8 @@ def blackjack():
             if suma_jugador > 21:
                 print("❌ Te pasaste de 21. Perdiste.")
                 resultado = f"BlackJack: Apostó ${apuesta}, perdió."
+                jugador['estadisticas']['total_apostado'] += apuesta
+                jugador['estadisticas']['juegos_perdidos'] += 1
                 break
 
             opcion = input("¿Quieres PEDIR (1) o PLANTARTE (2)? ").strip()
@@ -80,33 +85,39 @@ def blackjack():
             else:
                 print("❌ Opción inválida.")
 
-        suma_crupier = calcular_suma(crupier_cartas)
-        print(f"Crupier: {crupier_cartas} | Suma: {suma_crupier}")
-        while suma_crupier < 17:
-            crupier_cartas += repartir_carta(1)
+        if suma_jugador <= 21:
             suma_crupier = calcular_suma(crupier_cartas)
+            print(f"Crupier: {crupier_cartas} | Suma: {suma_crupier}")
+            while suma_crupier < 17:
+                crupier_cartas += repartir_carta(1)
+                suma_crupier = calcular_suma(crupier_cartas)
 
-        print(f"Crupier final: {crupier_cartas} | Suma: {suma_crupier}")
+            print(f"Crupier final: {crupier_cartas} | Suma: {suma_crupier}")
 
-        if suma_jugador > 21 or (suma_crupier <= 21 and suma_crupier > suma_jugador):
-            print("❌ Perdiste la ronda.")
-            resultado = f"BlackJack: Apostó ${apuesta}, perdió."
-        elif suma_crupier > 21 or suma_jugador > suma_crupier:
-            ganancia = apuesta * 2
-            wallet += ganancia
-            print(f"🎉 Ganaste! Tu ganancia es: ${ganancia:.2f}")
-            resultado = f"BlackJack: Apostó ${apuesta}, ganó ${ganancia}"
-        else:
-            wallet += apuesta
-            print("🤝 Empate. Se devuelve la apuesta.")
-            resultado = f"BlackJack: Apostó ${apuesta}, empate."
+            jugador['estadisticas']['total_apostado'] += apuesta
+
+            if suma_crupier > 21 or suma_jugador > suma_crupier:
+                ganancia = apuesta * 2
+                wallet += ganancia
+                print(f"🎉 Ganaste! Tu ganancia es: ${ganancia:.2f}")
+                resultado = f"BlackJack: Apostó ${apuesta}, ganó ${ganancia}"
+                jugador['estadisticas']['juegos_ganados'] += 1
+            elif suma_jugador == suma_crupier:
+                wallet += apuesta
+                print("🤝 Empate. Se devuelve la apuesta.")
+                resultado = f"BlackJack: Apostó ${apuesta}, empate."
+            else:
+                print("❌ Perdiste la ronda.")
+                resultado = f"BlackJack: Apostó ${apuesta}, perdió."
+                jugador['estadisticas']['juegos_perdidos'] += 1
 
         historial.push(resultado)
         print(f"💼 Saldo actualizado: ${wallet:.2f}")
         time.sleep(2)
 
     jugador['saldo'] = wallet
-    jugador['historial'] = historial
+    jugador['historial'] = historial.elementos  # ✅ Conversión a lista para JSON
     datos['jugadores'][jugador_id] = jugador
     guardar_datos(datos)
     print("\n✔ Datos guardados. ¡Hasta la próxima!")
+
