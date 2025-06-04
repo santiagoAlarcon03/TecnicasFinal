@@ -1,32 +1,26 @@
-from collections import deque  # Importación opcional en este caso, pero útil para estructuras tipo cola
-from utils import cargar_datos, guardar_datos  # Funciones para leer y guardar datos desde/para un archivo JSON
+from collections import deque  # Optional import in this case, but useful for queue-like structures
+from utils import cargar_datos, guardar_datos  # Functions to read and save data from/to a JSON file
 
 class MesaService:
     def __init__(self):
-        """
-        Constructor que inicializa el servicio de mesas.
-        Carga los datos desde almacenamiento persistente y asegura que exista la clave 'mesas'.
-        """
-        # Las mesas se guardarán dentro del JSON general, en clave 'mesas'
+        #Constructor that initializes the table service.
+        #Loads the data from persistent storage and ensures that the key 'tables' exists.
+        # The tables will be saved within the general JSON, in key 'tables'
         self.datos = cargar_datos()
         if 'mesas' not in self.datos:
             self.datos['mesas'] = []
             guardar_datos(self.datos)
 
-        # Al iniciar, cargamos las mesas en memoria
+        # At startup, we load the tables into memory
         self.mesas = self.datos['mesas']
 
     def _guardar(self):
-        """
-        Método interno para actualizar el archivo JSON con las mesas en memoria.
-        """
+        #Internal method to update the JSON file with the tables in memory.
         self.datos['mesas'] = self.mesas
         guardar_datos(self.datos)
 
     def _generar_nuevo_id(self):
-        """
-        Genera un nuevo ID de mesa secuencial basado en el último ID registrado.
-        """
+        #Generates a new sequential table ID based on the last registered ID.
         if not self.mesas:
             return "M1"
         ultimo_id = self.mesas[-1]['mesa_id']
@@ -34,10 +28,8 @@ class MesaService:
         return f"M{numero}"
 
     def crearMesa(self, nombre_juego, canJugadores, activa=True):
-        """
-        Crea una nueva mesa con los parámetros dados y la almacena.
-        """
-        # Crear una nueva mesa y agregarla
+        #Creates a new table with the given parameters and stores it.
+        # Create a new table and add it
         mesa_id = self._generar_nuevo_id()
 
         nueva_mesa = {
@@ -45,17 +37,15 @@ class MesaService:
             "juego": nombre_juego,
             "canJugadores": canJugadores,
             "activa": activa,
-            "jugadores": [],  # lista de IDs de jugadores en la mesa
-            "cola_espera": []  # lista de IDs de jugadores en cola
+            "jugadores": [],  # list of player IDs on the table
+            "cola_espera": []  # list of player IDs in queue
         }
         self.mesas.append(nueva_mesa)
         self._guardar()
         return nueva_mesa
 
     def borrarMesa(self, mesa_id):
-        """
-        Elimina una mesa dado su ID. Retorna True si se elimina, False si no se encuentra.
-        """
+        # Delete a table given its ID. Returns True if deleted, False if not found.
         original = len(self.mesas)
         self.mesas = [m for m in self.mesas if m['mesa_id'] != mesa_id]
         if len(self.mesas) < original:
@@ -64,18 +54,14 @@ class MesaService:
         return False
 
     def buscarMesa(self, mesa_id):
-        """
-        Busca y retorna una mesa por su ID. Si no la encuentra, retorna None.
-        """
+        #Searches and returns a table by its ID. If it is not found, it returns None.
         for mesa in self.mesas:
             if mesa['mesa_id'] == mesa_id:
                 return mesa
         return None
 
     def actualizarMesa(self, mesa_id, nombre_juego=None, canJugadores=None, activa=None):
-        """
-        Actualiza los datos de una mesa existente. Retorna True si fue modificada, False si no se encontró.
-        """
+        #Updates the data of an existing table. Returns True if it was modified, False if it was not found.
         mesa = self.buscarMesa(mesa_id)
         if not mesa:
             return False
@@ -89,10 +75,8 @@ class MesaService:
         return True
 
     def agregar_jugador_a_mesa(self, mesa_id, id_jugador):
-        """
-        Agrega un jugador a una mesa si hay espacio. Si no hay, lo agrega a la cola de espera.
-        Evita duplicados en mesa o cola. Retorna tupla (ok: bool, mensaje: str).
-        """
+        #Add a player to a table if there is space. If there isn't one, it adds it to the waiting queue.
+        #Avoid duplicates at the table or queue. Return tuple (ok: bool, message: str).
         mesa = self.buscarMesa(mesa_id)
         if not mesa:
             return False, "Mesa no encontrada"
@@ -110,10 +94,8 @@ class MesaService:
             return True, f"Jugador {id_jugador} agregado a la cola de espera de la mesa {mesa_id}"
 
     def mover_siguiente_jugador(self, mesa_id):
-        """
-        Mueve el primer jugador en la cola de espera a la mesa si hay espacio.
-        Retorna tupla (ok: bool, mensaje: str).
-        """
+        #Move the first player in the queue to the table if there is space.
+        #Return tuple (ok: bool, message: str).
         mesa = self.buscarMesa(mesa_id)
         if not mesa:
             return False, "Mesa no encontrada"
@@ -130,10 +112,8 @@ class MesaService:
         return True, f"Jugador {siguiente} movido a la mesa {mesa_id}"
 
     def eliminar_jugador_de_mesa(self, mesa_id, id_jugador):
-        """
-        Elimina un jugador de una mesa o de su cola de espera.
-        Retorna tupla (ok: bool, mensaje: str).
-        """
+        #Remove a player from a table or from your waiting queue.
+        #Return tuple (ok: bool, message: str).
         mesa = self.buscarMesa(mesa_id)
         if not mesa:
             return False, "Mesa no encontrada"
@@ -151,20 +131,16 @@ class MesaService:
         return False, "Jugador no encontrado en la mesa o cola"
 
     def obtener_jugadores_mesa(self, mesa_id):
-        """
-        Retorna la lista de IDs de jugadores presentes en una mesa.
-        Si no se encuentra la mesa, retorna lista vacía.
-        """
+        #Returns the list of IDs of players present at a table.
+        #If the table is not found, it returns an empty list.
         mesa = self.buscarMesa(mesa_id)
         if not mesa:
             return []
         return mesa['jugadores']
 
     def obtener_cola_espera(self, mesa_id):
-        """
-        Retorna la lista de IDs de jugadores en la cola de espera de una mesa.
-        Si no se encuentra la mesa, retorna lista vacía.
-        """
+        #Returns the list of player IDs in a table's queue.
+        #If the table is not found, it returns an empty list.
         mesa = self.buscarMesa(mesa_id)
         if not mesa:
             return []

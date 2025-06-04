@@ -1,36 +1,36 @@
-import json  # Para trabajar con archivos JSON
-import os    # Para verificar existencia de archivos y limpiar pantalla
+import json  # To work with JSON files
+import os    # To verify file existence and clear screen
 
 
 def cargar_datos():
-    # Carga los datos desde el archivo JSON o los inicializa si no existe o está corrupto
+    # Load data from JSON file or initialize it if it does not exist or is corrupt
     datos_iniciales = {
-        'jugadores': {},  # Diccionario para almacenar información de jugadores
-        'colas_juegos': {  # Estructura para manejar las colas de espera por juego
+        'jugadores': {},  # Dictionary to store player information
+        'colas_juegos': {  # Structure to manage queues per game
             'tragamonedas': [],
             'blackjack': []
         },
-        'estadisticas_juegos': {  # Contador de cuántas veces se jugó cada juego
+        'estadisticas_juegos': {  # Counter of how many times each game was played
             'tragamonedas': 0,
             'blackjack': 0
         }
     }
 
-    if not os.path.exists('datos.json'):  # Si no existe el archivo, lo crea con estructura inicial
+    if not os.path.exists('datos.json'):  # If the file does not exist, it creates it with initial structure
         with open('datos.json', 'w') as f:
             json.dump(datos_iniciales, f, indent=4)
         return datos_iniciales
 
     try:
         with open('datos.json', 'r') as f:
-            datos = json.load(f)  # Intenta leer el JSON
+            datos = json.load(f)  # Try reading the JSON
     except json.JSONDecodeError:
-        # Archivo vacío o corrupto: lo inicializa de nuevo
+        # Empty or corrupt file: initialize it again
         with open('datos.json', 'w') as f:
             json.dump(datos_iniciales, f, indent=4)
         return datos_iniciales
 
-    # Verifica que existan todas las claves necesarias (por compatibilidad futura)
+    # Verify that all necessary keys exist (for future compatibility)
     if 'jugadores' not in datos:
         datos['jugadores'] = {}
 
@@ -46,33 +46,33 @@ def cargar_datos():
             'blackjack': 0
         }
 
-    return datos  # Retorna los datos cargados o inicializados
+    return datos  # Returns the initialized data
 
 def Despejar():
-    # Limpia la consola según el sistema operativo
+    # Clean the console according to the operating system
     os.system('cls' if os.name == 'nt' else 'clear')
 
 def guardar_datos(datos):
-    # Guarda los datos en el archivo JSON con formato legible
+    # Save the data in the JSON file in readable format
     with open('datos.json', 'w') as f:
         json.dump(datos, f, indent=4)
 
 def validar_id_unico(id_jugador):
-    # Verifica si un ID de jugador ya está registrado
+    # Check if a player ID is already registered
     datos = cargar_datos()
     return id_jugador not in datos['jugadores']
 
 def serializar_datos(datos):
-    # Prepara los datos para ser guardados en JSON, asegurando que todo sea serializable
+    # Prepare data to be saved in JSON, ensuring everything is serializable
     datos_guardar = {
-        'jugadores': {},  # Nuevo diccionario para jugadores serializados
-        'colas_juegos': datos['colas_juegos'].copy()  # Copia de las colas de juego
+        'jugadores': {},  # New dictionary for serialized players
+        'colas_juegos': datos['colas_juegos'].copy()  # Copy of game queues
     }
     
     for id_jugador, jugador in datos['jugadores'].items():
-        jugador_copy = jugador.copy()  # Copia del jugador para modificar sin afectar el original
-        if hasattr(jugador['historial'], 'a_lista'):  # Si historial es un objeto con método a_lista()
-            jugador_copy['historial'] = jugador['historial'].a_lista()  # Se convierte a lista para serializar
-        datos_guardar['jugadores'][id_jugador] = jugador_copy  # Se agrega al nuevo diccionario
+        jugador_copy = jugador.copy()  # Player copy to modify without affecting the original
+        if hasattr(jugador['historial'], 'a_lista'):  # If history is an object with a_list() method
+            jugador_copy['historial'] = jugador['historial'].a_lista()  # Converts to ready to serialize
+        datos_guardar['jugadores'][id_jugador] = jugador_copy  # Added to new dictionary
     
-    return datos_guardar  # Devuelve los datos listos para guardar
+    return datos_guardar  # Returns data ready to save
