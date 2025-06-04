@@ -1,6 +1,6 @@
 from jugadores import gestionar_jugadores
 from Juegos.Tragamonedas import tragamonedas
-
+from Juegos.Blackjack import blackjack
 
 
 def mostrar_menu():
@@ -22,7 +22,7 @@ def jugar():
         opcion = input("Seleccione un juego: ")
 
         if opcion == "1":
-            blackjack_console()
+            blackjack()
         elif opcion == "2":
             tragamonedas()
         elif opcion == "0":
@@ -38,9 +38,9 @@ def main():
         if opcion == "1":
             gestionar_jugadores()
         elif opcion == "2":
-            jugar()  # 👈 aquí se muestra el submenú de juegos
+            jugar()  # 👈 
         elif opcion == "3":
-            generar_reportes()  # Asegúrate de tener esta función definida
+            generar_reportes() 
         elif opcion == "4":
             print("¡Gracias por visitar nuestro casino!")
             break
