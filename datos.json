@@ -16,28 +16,28 @@
         },
         "123": {
             "nombre": "pedro",
-            "saldo": 1285638.7700000003,
+            "saldo": 6265065731.322608,
             "historial": [
-                "Tragamonedas: Apost\u00f3 $2000, gan\u00f3 $100000",
-                "BlackJack: Apost\u00f3 $10000.0, perdi\u00f3.",
-                "BlackJack: Apost\u00f3 $10000.0, gan\u00f3 $20000.0",
-                "Tragamonedas: Apost\u00f3 $1000, gan\u00f3 $10000",
-                "Tragamonedas: Apost\u00f3 $10, gan\u00f3 $50",
                 "Tragamonedas: Apost\u00f3 $10000, gan\u00f3 $0",
                 "Estrategia Optimizada R1: Apost\u00f3 $7356.00, gan\u00f3 $0.00",
                 "Estrategia Optimizada R2: Apost\u00f3 $14589.40, gan\u00f3 $0.00",
                 "Estrategia Optimizada R3: Apost\u00f3 $6773.65, gan\u00f3 $67736.50",
-                "Estrategia Optimizada R4: Apost\u00f3 $35222.98, gan\u00f3 $1232804.30"
+                "Estrategia Optimizada R4: Apost\u00f3 $35222.98, gan\u00f3 $1232804.30",
+                "Estrategia Optimizada R1: Apost\u00f3 $449973.57, gan\u00f3 $47247224.80",
+                "Estrategia Optimizada R2: Apost\u00f3 $14424867.00, gan\u00f3 $72124335.00",
+                "Estrategia Optimizada R3: Apost\u00f3 $42312943.20, gan\u00f3 $423129431.98",
+                "Estrategia Optimizada R4: Apost\u00f3 $97319769.36, gan\u00f3 $2432994233.90",
+                "Tragamonedas: Apost\u00f3 $27764455, gan\u00f3 $3470556875"
             ],
             "estadisticas": {
-                "juegos_ganados": 6,
+                "juegos_ganados": 11,
                 "juegos_perdidos": 4,
-                "total_apostado": 96952.03
+                "total_apostado": 182368960.153092
             }
         },
         "456": {
             "nombre": "andrea",
-            "saldo": 1101000.0,
+            "saldo": 998970.0,
             "historial": [
                 "Tragamonedas: Apost\u00f3 $1000, gan\u00f3 $0",
                 "BlackJack: Apost\u00f3 $1000.0, gan\u00f3 $2000.0",
@@ -47,12 +47,13 @@
                 "BlackJack: Apost\u00f3 $1000.0, perdi\u00f3.",
                 "BlackJack: Apost\u00f3 $150000.0, gan\u00f3 $300000.0",
                 "BlackJack: Apost\u00f3 $1000.0, gan\u00f3 $2000.0",
-                "BlackJack: Apost\u00f3 $10000.0, perdi\u00f3."
+                "BlackJack: Apost\u00f3 $10000.0, perdi\u00f3.",
+                "Tragamonedas: Apost\u00f3 $102030, gan\u00f3 $0"
             ],
             "estadisticas": {
                 "juegos_ganados": 5,
-                "juegos_perdidos": 4,
-                "total_apostado": 275000.0
+                "juegos_perdidos": 5,
+                "total_apostado": 377030.0
             }
         }
     },
@@ -61,7 +62,7 @@
         "blackjack": []
     },
     "estadisticas_juegos": {
-        "tragamonedas": 9,
+        "tragamonedas": 15,
         "blackjack": 7
     },
     "mesas": [

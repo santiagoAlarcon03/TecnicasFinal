@@ -1,7 +1,9 @@
-import json
-from utils import cargar_datos, guardar_datos, Despejar
+import json  # Module to handle data in JSON format
+from utils import cargar_datos, guardar_datos, Despejar  # Utility functions for persistence and screen clearing
 
 def registrar_jugador():
+    #Allows you to register a new player with unique ID, name, starting balance and blank statistics.
+    #Validates that the ID is not repeated and that the balance is a positive number.
     datos = cargar_datos()
     
     print("\n--- REGISTRO DE NUEVO JUGADOR ---")
@@ -46,6 +48,7 @@ def registrar_jugador():
 
 
 def gestionar_jugadores():
+    # Player management menu with options to register, consult, modify, delete and list players.
     while True:
         print("\n--- GESTIÓN DE JUGADORES ---")
         print("1. Registrar nuevo jugador")
@@ -79,6 +82,7 @@ def gestionar_jugadores():
 
 
 def consultar_jugador():
+    #Allows you to search and print detailed information about a registered player, including statistics and history.
     datos = cargar_datos()
     id_jugador = input("Ingrese ID del jugador a consultar: ").upper()
     
@@ -98,8 +102,8 @@ def consultar_jugador():
         print("Jugador no encontrado.")
 
 
-
 def modificar_jugador():
+    #Allows you to modify the name and balance of an existing player. Validate that the new balance is valid.
     datos = cargar_datos()
     id_jugador = input("Ingrese el ID del jugador que desea modificar: ").upper()
 
@@ -134,8 +138,8 @@ def modificar_jugador():
     print(" Jugador modificado con éxito.")
 
 
-
 def eliminar_jugador():
+    #Eliminate a player if they are not in any game queue. Requires user confirmation.
     datos = cargar_datos()
     id_jugador = input("Ingrese ID del jugador a eliminar: ").upper()
     
@@ -143,7 +147,7 @@ def eliminar_jugador():
         print("Jugador no encontrado.")
         return
     
-    # Verificar si el jugador está en alguna cola de juego
+    # Check if the player is in a game queue
     en_cola = False
     for juego, cola in datos['colas_juegos'].items():
         if id_jugador in cola:
@@ -154,7 +158,7 @@ def eliminar_jugador():
         print("No se puede eliminar: el jugador está en una cola de juego.")
         return
     
-    # Confirmación de eliminación
+    #Deletion confirmation
     jugador = datos['jugadores'][id_jugador]
     confirmacion = input(f"¿Está seguro de eliminar a {jugador['nombre']} (ID: {id_jugador})? (s/n): ").lower()
     
@@ -164,8 +168,10 @@ def eliminar_jugador():
         print("Jugador eliminado exitosamente.")
     else:
         print("Eliminación cancelada.")
-        
+
+
 def listar_jugadores():
+    #Displays a table with all registered players, including main statistics.
     datos = cargar_datos()
     
     if not datos['jugadores']:
@@ -184,35 +190,44 @@ def listar_jugadores():
             jugador['saldo'],
             jugador['estadisticas']['juegos_ganados'],
             jugador['estadisticas']['juegos_perdidos']))
-        
-        
+
+
+# Stack type data structure
 class Pila:
     def __init__(self, max_elementos=10):
+        #Stack type data structure
         self.elementos = []
         self.max = max_elementos
 
     def push(self, item):
+        #Adds an item to the stack. If the maximum is exceeded, the oldest is deleted (FIFO).
         if len(self.elementos) >= self.max:
             self.elementos.pop(0)
         self.elementos.append(item)
 
     def __str__(self):
+        #Returns a string representation of the stack.
         return str(self.elementos)
 
     def to_list(self):
-        return self.elementos.copy()  # Esto es lo importante para guardar en JSON
+        #Returns a copy of the stack as a list (useful for saving to JSON).
+        return self.elementos.copy()
 
 
+# Queue type data structure
 class Cola:
     def __init__(self):
+        #Initializes an empty queue.
         self.items = []
     
     def encolar(self, item):
+        #Adds an element to the end of the queue.
         self.items.append(item)
     
     def desencolar(self):
+        #Delete and return the first element of the queue. Returns None if empty.
         return self.items.pop(0) if self.items else None
     
     def __str__(self):
+        #Returns a string representation of the queue.
         return str(self.items)
-    
