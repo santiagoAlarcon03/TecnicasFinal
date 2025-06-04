@@ -3,8 +3,43 @@ import time
 from utils import cargar_datos, guardar_datos
 from jugadores import Pila  # Asegúrate de importar correctamente tu clase Pila
 
-def tragamonedas():
+def tragamonedas(mesa):
     datos = cargar_datos()
+
+    # Buscar mesas disponibles para tragamonedas (juego guardado como string)
+    mesas_disponibles = [m for m in mesa.mesas if m['juego'].lower() == "tragamonedas" and m['activa']]
+
+    if not mesas_disponibles:
+        print("No hay mesas disponibles para Tragamonedas.")
+        time.sleep(2)
+        return
+
+    # Mostrar mesas disponibles
+    print("\nMesas disponibles para Tragamonedas:")
+    for i, mesa_disp in enumerate(mesas_disponibles, 1):
+        print(f"{i}. Mesa {mesa_disp['mesa_id']} - Jugadores: {len(mesa_disp['jugadores'])}/{mesa_disp['canJugadores']}")
+
+    try:
+        seleccion = int(input("\nSeleccione una mesa: ")) - 1
+        if seleccion < 0 or seleccion >= len(mesas_disponibles):
+            print("Selección inválida.")
+            time.sleep(2)
+            return
+    except ValueError:
+        print("Debe ingresar un número válido.")
+        time.sleep(2)
+        return
+
+    mesa_seleccionada = mesas_disponibles[seleccion]
+
+    # Verificar que haya al menos 1 jugador en la mesa (o el número mínimo que quieras)
+    if len(mesa_seleccionada['jugadores']) < 1:
+        print("\nSe necesita al menos 1 jugador para jugar Tragamonedas.")
+        time.sleep(3)
+        return
+
+    print(f"\nIniciando juego en la mesa {mesa_seleccionada['mesa_id']} con {len(mesa_seleccionada['jugadores'])} jugadores.")
+    time.sleep(3)
 
     print("\n🎮BIENVENIDO A UNA TRAGAMONEDAS \n " \
           "El juego es sencillo, la máquina tirará 15 veces, tres símbolos aleatorios. \n " \

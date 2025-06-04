@@ -1,6 +1,5 @@
 import random
 import time
-from MesasService import MesaService
 from utils import cargar_datos, guardar_datos
 from jugadores import Pila
 
@@ -8,11 +7,11 @@ def blackjack(mesa):
 
     datos = cargar_datos()
     # Buscar mesas disponibles para blackjack (juego guardado como string)
-    mesas_disponibles = [m for m in MesaService.mesas if m['juego'].lower() == "blackjack" and m['activa']]
+    mesas_disponibles = [m for m in mesa.mesas if m['juego'].lower() == "blackjack" and m['activa']]
 
     if not mesas_disponibles:
         print("No hay mesas disponibles para BlackJack.")
-        input("\nPresione Enter para volver...")
+        time.sleep(2)
         return
 
     # Mostrar mesas disponibles
@@ -24,25 +23,23 @@ def blackjack(mesa):
         seleccion = int(input("\nSeleccione una mesa: ")) - 1
         if seleccion < 0 or seleccion >= len(mesas_disponibles):
             print("Selección inválida.")
-            input("\nPresione Enter para volver...")
+            time.sleep(2)
             return
     except ValueError:
         print("Debe ingresar un número válido.")
-        input("\nPresione Enter para volver...")
+        time.sleep(2)
         return
 
     mesa_seleccionada = mesas_disponibles[seleccion]
 
-    # Verificar que haya al menos 2 jugadores en la mesa
-    if len(mesa_seleccionada['jugadores']) < 2:
-        print("\nSe necesitan al menos 2 jugadores para jugar BlackJack.")
-        input("\nPresione Enter para volver...")
+    # Verificar que haya al menos 1 jugador en la mesa
+    if len(mesa_seleccionada['jugadores']) < 1:
+        print("\nSe necesitan al menos 1 jugador para jugar BlackJack.")
+        time.sleep(3)
         return
 
-    print(f"\nIniciando juego en la mesa {mesa_seleccionada['mesa_id']} con {len(mesa_seleccionada['jugadores'])} jugadores.")
-    
-    # Aquí seguiría la lógica para jugar blackjack...
-    input("\nPresione Enter para continuar...")
+    print(f"\nIniciando juego en la mesa {mesa_seleccionada['mesa_id']} con {len(mesa_seleccionada['jugadores'])} jugadores.")    
+    time.sleep(3)
 
     print("\n🂡 BIENVENIDO A BLACKJACK 🂡")
     jugador_id = input("Ingrese su ID de jugador: ").strip().upper()
