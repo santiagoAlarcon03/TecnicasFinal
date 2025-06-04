@@ -4,7 +4,7 @@ from Juegos.Blackjack import blackjack
 from utils import Despejar, cargar_datos
 from Mesas import gestionar_mesas
 from MesasService import MesaService
-from backtracking_tragamonedas import menu_optimizacion
+from Juegos.backtracking_tragamonedas import menu_optimizacion
 
 def mostrar_menu():
     print("\n--- CASINO PYTHON ---")

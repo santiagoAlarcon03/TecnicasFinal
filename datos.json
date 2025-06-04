@@ -16,19 +16,23 @@
         },
         "123": {
             "nombre": "pedro",
-            "saldo": 49040.0,
+            "saldo": 1285638.7700000003,
             "historial": [
                 "Tragamonedas: Apost\u00f3 $2000, gan\u00f3 $100000",
                 "BlackJack: Apost\u00f3 $10000.0, perdi\u00f3.",
                 "BlackJack: Apost\u00f3 $10000.0, gan\u00f3 $20000.0",
                 "Tragamonedas: Apost\u00f3 $1000, gan\u00f3 $10000",
                 "Tragamonedas: Apost\u00f3 $10, gan\u00f3 $50",
-                "Tragamonedas: Apost\u00f3 $10000, gan\u00f3 $0"
+                "Tragamonedas: Apost\u00f3 $10000, gan\u00f3 $0",
+                "Estrategia Optimizada R1: Apost\u00f3 $7356.00, gan\u00f3 $0.00",
+                "Estrategia Optimizada R2: Apost\u00f3 $14589.40, gan\u00f3 $0.00",
+                "Estrategia Optimizada R3: Apost\u00f3 $6773.65, gan\u00f3 $67736.50",
+                "Estrategia Optimizada R4: Apost\u00f3 $35222.98, gan\u00f3 $1232804.30"
             ],
             "estadisticas": {
-                "juegos_ganados": 4,
-                "juegos_perdidos": 2,
-                "total_apostado": 33010.0
+                "juegos_ganados": 6,
+                "juegos_perdidos": 4,
+                "total_apostado": 96952.03
             }
         },
         "456": {
@@ -57,7 +61,7 @@
         "blackjack": []
     },
     "estadisticas_juegos": {
-        "tragamonedas": 5,
+        "tragamonedas": 9,
         "blackjack": 7
     },
     "mesas": [
