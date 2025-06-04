@@ -1,17 +1,18 @@
 import random
 import time
 from utils import cargar_datos, guardar_datos
-from jugadores import Pila  # Asegurate de importar donde esté definida tu clase Pila
+from jugadores import Pila  # Asegúrate de importar correctamente tu clase Pila
 
 def tragamonedas():
     datos = cargar_datos()
 
     print("\n🎮BIENVENIDO A UNA TRAGAMONEDAS \n " \
-                "El juego es sencillo, la maquina tirará 15 veces, tres simbolos aleatorios. \n " \
-		"si en en esa tirada, entre esos simbolos hay 2 o más Bonus, habrá un multiplicador aleatorio para tu apuesta \n " \
-		"es decir, tu dinero se multiplicará una vez por cada tirada en la que ocurra esto. \n " \
-		"Tu dinero se puede multiplicar por 5, 10, 25, 50 o 100! \n " \
-		"BUENA SUERTE")
+          "El juego es sencillo, la máquina tirará 15 veces, tres símbolos aleatorios. \n " \
+          "Si en esa tirada, entre esos símbolos hay 2 o más Bonus, habrá un multiplicador aleatorio para tu apuesta. \n " \
+          "Es decir, tu dinero se multiplicará una vez por cada tirada en la que ocurra esto. \n " \
+          "Tu dinero se puede multiplicar por 5, 10, 25, 50 o 100! \n " \
+          "🎲 ¡BUENA SUERTE!")
+
     id_jugador = input("Ingrese su ID de jugador: ").strip().upper()
 
     if id_jugador not in datos['jugadores']:
@@ -20,9 +21,11 @@ def tragamonedas():
 
     jugador = datos['jugadores'][id_jugador]
     wallet = jugador['saldo']
-    historial = jugador.get('historial', [])
-    if isinstance(historial, list):
-        historial = Pila()  # Por si no está deserializado
+
+    historial_datos = jugador.get('historial', [])
+    historial = Pila()
+    for item in historial_datos:
+        historial.push(item)
 
     simbolos = ['Bonus', 'uvas', 'Banano', 'Limon', 'Pera', 'Fresa']
     multiplicadores = [5, 10, 25, 50, 100]
@@ -63,7 +66,7 @@ def tragamonedas():
                 multiplicador = random.choice(multiplicadores)
                 ganancias = apuesta * multiplicador
                 gananciasTotales += ganancias
-                print(f"🎉 Ganaste! multiplicador x{multiplicador}")
+                print(f"🎉 ¡Ganaste! multiplicador x{multiplicador}")
             else:
                 print("❌ No ganaste")
 
@@ -88,10 +91,8 @@ def tragamonedas():
 
     # Guardar cambios
     jugador['saldo'] = wallet
-    jugador['historial'] = historial
+    jugador['historial'] = historial.to_list()  # convertir la pila a lista
     datos['jugadores'][id_jugador] = jugador
     guardar_datos(datos)
+
     print("\n✔ Datos guardados. ¡Hasta la próxima!")
-
-
-    

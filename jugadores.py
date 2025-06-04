@@ -146,14 +146,18 @@ class Pila:
     def __init__(self, max_elementos=10):
         self.elementos = []
         self.max = max_elementos
-    
+
     def push(self, item):
         if len(self.elementos) >= self.max:
             self.elementos.pop(0)
         self.elementos.append(item)
-    
+
     def __str__(self):
         return str(self.elementos)
+
+    def to_list(self):
+        return self.elementos.copy()  # Esto es lo importante para guardar en JSON
+
 
 class Cola:
     def __init__(self):

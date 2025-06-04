@@ -2,12 +2,27 @@
     "jugadores": {
         "2435": {
             "nombre": "Maria Isabel Nore\u00f1a",
-            "saldo": 30000.0,
-            "historial": [],
+            "saldo": 15000.0,
+            "historial": [
+                "Tragamonedas: Apost\u00f3 $15000, gan\u00f3 $0"
+            ],
             "estadisticas": {
                 "juegos_ganados": 0,
-                "juegos_perdidos": 0,
-                "total_apostado": 0
+                "juegos_perdidos": 1,
+                "total_apostado": 15000
+            }
+        },
+        "12": {
+            "nombre": "da",
+            "saldo": 100.0,
+            "historial": [
+                "Tragamonedas: Apost\u00f3 $10, gan\u00f3 $0",
+                "Tragamonedas: Apost\u00f3 $102, gan\u00f3 $0"
+            ],
+            "estadisticas": {
+                "juegos_ganados": 0,
+                "juegos_perdidos": 2,
+                "total_apostado": 112
             }
         }
     },
