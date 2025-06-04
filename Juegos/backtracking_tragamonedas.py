@@ -11,20 +11,17 @@ class ResultadoApuesta:
     apuesta: int
     ganancia: float
     saldo_final: float
-    exito: bool  # True si no se quedó sin dinero
+    exito: bool  # True if user doesn´t have enougth money 
 
 class OptimizadorApuestas:
-    """
-    Clase que implementa backtracking para encontrar la mejor estrategia de apuestas
-    en el juego de tragamonedas.
-    
-    ALGORITMO DE BACKTRACKING:
-    1. Genera todas las posibles combinaciones de apuestas
-    2. Para cada combinación, simula el juego completo
-    3. Descarta combinaciones que resulten en saldo = 0
-    4. Encuentra la combinación que maximiza las ganancias
-    """
-    
+   # Class that implements backtracking to find the best betting strategy
+    # for the slot machine game.
+    # BACKTRACKING ALGORITHM:
+    #  1. Generates all possible bet combinations
+    #  2. For each combination, simulates the full game
+    #  3. Discards combinations that result in balance = 0
+    #  4. Finds the combination that maximizes profits
+            
     def __init__(self, saldo_inicial: float, max_rondas: int = 5):
         self.saldo_inicial = saldo_inicial
         self.max_rondas = max_rondas
@@ -32,26 +29,26 @@ class OptimizadorApuestas:
         self.mejor_ganancia = -float('inf')
         self.simulaciones_realizadas = 0
         
-        # Configuración del juego (igual que tu tragamonedas)
+        # configuration as Tragamonedas
         self.simbolos = ['Bonus', 'uvas', 'Banano', 'Limon', 'Pera', 'Fresa']
         self.multiplicadores = [5, 10, 25, 50, 100]
         
-        # Tabla de apuestas posibles (porcentajes del saldo actual)
+        # posible bets table (percentages of the current balance)
         self.porcentajes_apuesta = [0.1, 0.15, 0.2, 0.25, 0.3, 0.35, 0.4]
     
     def simular_ronda_tragamonedas(self, apuesta: float) -> float:
-        """
-        Simula una ronda de tragamonedas retorna las ganancias totales de la ronda.
-        """
+        
+        # Simulates a slot round and returns the total winnings for the round.
+        
         ganancias_totales = 0
         
-        # 15 tiradas por ronda (como en tu juego)
+        # 15 spins per round
         for _ in range(15):
-            # Generar combinación aleatoria
+            # make random combination
             combo = [random.choice(self.simbolos) for _ in range(3)]
             bonus_count = combo.count("Bonus")
             
-            # Si hay 2 o más Bonus, aplicar multiplicador
+            # If there are 2 or more Bonuses, apply multiplier
             if bonus_count >= 2:
                 multiplicador = random.choice(self.multiplicadores)
                 ganancias = apuesta * multiplicador
@@ -60,37 +57,34 @@ class OptimizadorApuestas:
         return ganancias_totales
     
     def simular_estrategia(self, estrategia_apuestas: List[float]) -> ResultadoApuesta:
-        """
-        Simula una estrategia completa de apuestas.
         
-        Args:
-            estrategia_apuestas: Lista de porcentajes de apuesta para cada ronda
-        
-        Returns:
-            ResultadoApuesta: Resultado de la simulación
-        """
-        saldo_actual = self.saldo_inicial
-        ganancia_total = 0
-        
+        #Simulates a complete betting strategy.
+        #Args:
+        #   bet_strategy: List of bet percentages for each round
+        #   Returns:
+        #   BetResult: Simulation result    
+        #   saldo_actual = self.saldo_inicial
+        #   ganancia_total = 0
+            
         for i, porcentaje in enumerate(estrategia_apuestas):
             if saldo_actual <= 0:
-                # Se quedó sin dinero, estrategia fallida
+                # without money
                 return ResultadoApuesta(0, ganancia_total, 0, False)
             
-            # Calcular apuesta basada en porcentaje del saldo actual
+            # Calculate bet based on percentage of current balance
             apuesta = saldo_actual * porcentaje
             
-            # Verificar que la apuesta sea válida
+            #   Verify that the bet is valid
             if apuesta > saldo_actual:
                 apuesta = saldo_actual
             
-            # Simular la ronda
+            # Simulate the round
             ganancias_ronda = self.simular_ronda_tragamonedas(apuesta)
             
-            # Actualizar saldo
-            saldo_actual -= apuesta  # Se resta la apuesta
-            saldo_actual += ganancias_ronda  # Se suman las ganancias
-            ganancia_total += ganancias_ronda - apuesta  # Ganancia neta
+            # Update balance
+            saldo_actual -= apuesta  
+            saldo_actual += ganancias_ronda 
+            ganancia_total += ganancias_ronda - apuesta  
         
         return ResultadoApuesta(
             apuesta=sum(estrategia_apuestas) * self.saldo_inicial,
@@ -100,61 +94,44 @@ class OptimizadorApuestas:
         )
     
     def backtracking(self, estrategia_actual: List[float], ronda_actual: int):
-        """
-        ALGORITMO DE BACKTRACKING PRINCIPAL
         
-        Este método explora recursivamente todas las posibles combinaciones
-        de apuestas, podando las ramas que no son prometedoras.
-        
-        Args:
-            estrategia_actual: Lista de porcentajes de apuesta construida hasta ahora
-            ronda_actual: Número de ronda actual (para controlar la recursión)
-        """
         self.simulaciones_realizadas += 1
         
-        # CASO BASE: Si hemos planificado todas las rondas
+        # CASO BASE: If we have planned all the rounds
         if ronda_actual >= self.max_rondas:
-            # Simular la estrategia completa
+           
             resultado = self.simular_estrategia(estrategia_actual)
             
-            # Si la estrategia es exitosa y mejor que la actual
+            # If the strategy is successful and better than the current one
             if resultado.exito and resultado.ganancia > self.mejor_ganancia:
                 self.mejor_ganancia = resultado.ganancia
                 self.mejor_estrategia = estrategia_actual.copy()
             return
         
-        # RECURSIÓN: Probar cada posible porcentaje de apuesta
+        # RECURSION: Test every possible bet percentage
         for porcentaje in self.porcentajes_apuesta:
-            # PODA: Verificar si vale la pena continuar con esta rama
+    
             if self.es_rama_prometedora(estrategia_actual + [porcentaje], ronda_actual):
-                # Agregar la apuesta a la estrategia actual
+               # Add the bet to the current strategy
                 estrategia_actual.append(porcentaje)
                 
-                # LLAMADA RECURSIVA
+                # RECURSIVE CALL
                 self.backtracking(estrategia_actual, ronda_actual + 1)
                 
-                # BACKTRACK: Remover la apuesta para probar otras opciones
+                # BACKTRACK: Remove the bet to try other options
                 estrategia_actual.pop()
     
     def es_rama_prometedora(self, estrategia_parcial: List[float], ronda: int) -> bool:
-        """
-        FUNCIÓN DE PODA: Determina si vale la pena continuar explorando esta rama.
-        
-        Criterios de poda:
-        1. Si la simulación parcial ya resulta en saldo = 0
-        2. Si el patrón de apuestas es demasiado agresivo
-        3. Si las primeras rondas muestran pérdidas excesivas
-        """
+       
         if not estrategia_parcial:
             return True
-        
-        # Poda 1: Verificar que no apostemos más del 50% en rondas consecutivas
+
         if len(estrategia_parcial) >= 2:
             if estrategia_parcial[-1] > 0.35 and estrategia_parcial[-2] > 0.35:
                 return False
         
-        # Poda 2: Simular parcialmente para verificar viabilidad
-        if ronda >= 2:  # Solo verificar después de al menos 2 rondas planificadas
+  
+        if ronda >= 2:  
             resultado_parcial = self.simular_estrategia(estrategia_parcial)
             if not resultado_parcial.exito:
                 return False
@@ -162,15 +139,7 @@ class OptimizadorApuestas:
         return True
     
     def encontrar_mejor_estrategia(self) -> Tuple[List[float], float, Dict]:
-        """
-        MÉTODO PRINCIPAL: Encuentra la mejor estrategia de apuestas.
-        
-        Returns:
-            Tuple con:
-            - Lista de porcentajes de apuesta óptimos
-            - Ganancia esperada máxima
-            - Estadísticas del proceso
-        """
+
         print("🔍 INICIANDO OPTIMIZACIÓN DE ESTRATEGIA CON BACKTRACKING...")
         print(f"💰 Saldo inicial: ${self.saldo_inicial}")
         print(f"🎯 Máximo de rondas: {self.max_rondas}")
@@ -178,7 +147,7 @@ class OptimizadorApuestas:
         
         tiempo_inicio = time.time()
         
-        # Iniciar el backtracking
+        #  backtracking STARTS
         self.backtracking([], 0)
         
         tiempo_total = time.time() - tiempo_inicio
@@ -193,15 +162,7 @@ class OptimizadorApuestas:
         return self.mejor_estrategia, self.mejor_ganancia, estadisticas
 
 def optimizar_estrategia_tragamonedas():
-    """
-    FUNCIÓN PRINCIPAL para integrar con tu juego de tragamonedas.
-    
-    Esta función:
-    1. Carga los datos del jugador
-    2. Utiliza backtracking para encontrar la mejor estrategia
-    3. Presenta los resultados al usuario
-    4. Opcionalmente ejecuta la estrategia encontrada
-    """
+
     datos = cargar_datos()
     
     print("\n🎯 OPTIMIZADOR DE ESTRATEGIAS PARA TRAGAMONEDAS")
@@ -222,15 +183,15 @@ def optimizar_estrategia_tragamonedas():
     
     print(f"\n💰 Tu saldo actual: ${saldo_actual:.2f}")
     
-    # Configurar el optimizador
+    #  Configure the optimizer
     max_rondas = int(input("¿Cuántas rondas quieres planificar? (recomendado: 3-5): ") or "3")
     
     optimizador = OptimizadorApuestas(saldo_actual, max_rondas)
     
-    # Encontrar la mejor estrategia
+    # Find best strategy
     mejor_estrategia, mejor_ganancia, estadisticas = optimizador.encontrar_mejor_estrategia()
     
-    # Mostrar resultados
+    # show results
     print("\n" + "="*60)
     print("🏆 MEJOR ESTRATEGIA ENCONTRADA")
     print("="*60)
@@ -249,7 +210,7 @@ def optimizar_estrategia_tragamonedas():
         print(f"   🔍 Simulaciones realizadas: {estadisticas['simulaciones_realizadas']:,}")
         print(f"   ✂️  Eficiencia de poda: {estadisticas['eficiencia_poda']*100:.1f}%")
         
-        # Preguntar si quiere ejecutar la estrategia
+
         ejecutar = input("\n¿Quieres ejecutar esta estrategia optimizada? (s/n): ").lower()
         
         if ejecutar == 's':
@@ -259,9 +220,7 @@ def optimizar_estrategia_tragamonedas():
         print("💡 Considera aumentar tu saldo o reducir el número de rondas.")
 
 def ejecutar_estrategia_optimizada(jugador: dict, estrategia: List[float], id_jugador: str, datos: dict):
-    """
-    Ejecuta la estrategia optimizada encontrada por backtracking.
-    """
+
     print("\n🎮 EJECUTANDO ESTRATEGIA OPTIMIZADA...")
     print("=" * 50)
     
@@ -290,7 +249,6 @@ def ejecutar_estrategia_optimizada(jugador: dict, estrategia: List[float], id_ju
         
         input("Presiona Enter para continuar con la ronda...")
         
-        # Ejecutar la ronda exactamente como en tu juego original
         ganancias_totales = 0
         print("\n🎰 COMENCEMOS...\n")
         
@@ -313,8 +271,7 @@ def ejecutar_estrategia_optimizada(jugador: dict, estrategia: List[float], id_ju
                 print("❌ No ganaste")
             
             time.sleep(0.3)
-        
-        # Actualizar saldo
+
         saldo_actual -= apuesta
         saldo_actual += ganancias_totales
         
@@ -333,8 +290,7 @@ def ejecutar_estrategia_optimizada(jugador: dict, estrategia: List[float], id_ju
         print(f"💼 Saldo actualizado: ${saldo_actual:.2f}")
         
         time.sleep(2)
-    
-    # Calcular resultado final
+
     ganancia_neta = saldo_actual - saldo_inicial
     
     print("\n" + "="*50)
@@ -345,7 +301,7 @@ def ejecutar_estrategia_optimizada(jugador: dict, estrategia: List[float], id_ju
     print(f"📈 Ganancia neta: ${ganancia_neta:.2f}")
     print(f"📊 ROI real: {(ganancia_neta/saldo_inicial)*100:.1f}%")
     
-    # Guardar cambios
+    # save changes
     jugador['saldo'] = saldo_actual
     jugador['historial'] = historial.to_list()
     datos['jugadores'][id_jugador] = jugador
@@ -354,7 +310,7 @@ def ejecutar_estrategia_optimizada(jugador: dict, estrategia: List[float], id_ju
     
     print("\n✔ Datos guardados. ¡Estrategia completada!")
 
-# Función para integrar con tu sistema existente
+# Function to integrate with your existing system
 def menu_optimizacion():
     """Menú para acceder a la optimización de estrategias"""
     print("\n🎯 OPTIMIZACIÓN DE APUESTAS CON BACKTRACKING")
@@ -372,5 +328,5 @@ def menu_optimizacion():
         menu_optimizacion()
 
 if __name__ == "__main__":
-    # Para pruebas directas
+
     menu_optimizacion()
