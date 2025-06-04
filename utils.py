@@ -27,7 +27,7 @@ def validar_id_unico(id_jugador):
     return id_jugador not in datos['jugadores']
 
 def serializar_datos(datos):
-    """Prepara los datos para guardar en JSON"""
+                                                                       #It prepares data to save in JSON
     datos_guardar = {
         'jugadores': {},
         'colas_juegos': datos['colas_juegos'].copy()
@@ -41,8 +41,8 @@ def serializar_datos(datos):
     
     return datos_guardar
 
-def deserializar_datos(datos_crudos):
-    """Convierte los datos leídos de JSON a objetos"""
+def deserializar_datos(datos_crudos):                                    
+                                                                       #It makes the JSON´S data to objects
     datos = {
         'jugadores': {},
         'colas_juegos': datos_crudos['colas_juegos'].copy()
