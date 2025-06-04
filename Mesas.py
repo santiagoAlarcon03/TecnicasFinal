@@ -1,4 +1,5 @@
 from MesasService import MesaService
+from utils import Despejar
 
 def gestionar_mesas():
     service = MesaService()
@@ -16,6 +17,7 @@ def gestionar_mesas():
         opcion = input("Seleccione una opción: ")
 
         if opcion == "1":
+            Despejar()
             nombre_juego = input("Nombre del juego: ").strip().lower()
             while True:
                 try:
@@ -30,6 +32,7 @@ def gestionar_mesas():
             print(f"Mesa creada con ID: {mesa['mesa_id']}")
 
         elif opcion == "2":
+            Despejar()
             mid = input("ID de la mesa a borrar: ").strip().upper()
             if service.borrarMesa(mid):
                 print("Mesa borrada.")
@@ -37,6 +40,7 @@ def gestionar_mesas():
                 print("Mesa no encontrada.")
 
         elif opcion == "3":
+            Despejar()
             if not service.mesas:
                 print("No hay mesas registradas.")
             else:
@@ -47,17 +51,20 @@ def gestionar_mesas():
                     print(f"  Cola: {m['cola_espera']}")
 
         elif opcion == "4":
+            Despejar()
             mid = input("ID de la mesa: ").strip().upper()
             jid = input("ID del jugador a agregar: ").strip().upper()
             ok, msg = service.agregar_jugador_a_mesa(mid, jid)
             print(msg)
 
         elif opcion == "5":
+            Despejar()
             mid = input("ID de la mesa: ").strip().upper()
             ok, msg = service.mover_siguiente_jugador(mid)
             print(msg)
 
         elif opcion == "6":
+            Despejar()
             mid = input("ID de la mesa: ").strip().upper()
             jid = input("ID del jugador a eliminar: ").strip().upper()
             ok, msg = service.eliminar_jugador_de_mesa(mid, jid)

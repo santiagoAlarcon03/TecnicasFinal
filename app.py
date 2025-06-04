@@ -1,9 +1,10 @@
 from jugadores import gestionar_jugadores
 from Juegos.Tragamonedas import tragamonedas
 from Juegos.Blackjack import blackjack
-from utils import cargar_datos
+from utils import Despejar, cargar_datos
 from Mesas import gestionar_mesas
 from MesasService import MesaService
+
 def mostrar_menu():
     print("\n--- CASINO PYTHON ---")
     print("1. Gestión de Jugadores")
@@ -24,9 +25,11 @@ def jugar():
         opcion = input("Seleccione un juego: ")
 
         if opcion == "1":
+            Despejar()
             mesa = MesaService()
             blackjack(mesa)     
         elif opcion == "2":
+            Despejar()
             mesa = MesaService()
             tragamonedas(mesa)
         elif opcion == "0":
@@ -47,12 +50,14 @@ def generar_reportes():
     opcion = input("Seleccione una opción: ")
 
     if opcion == "1":
+        Despejar()
         print("\n--- Jugadores con mayor saldo ---")
         top = sorted(jugadores.items(), key=lambda x: x[1]['saldo'], reverse=True)
         for id_j, info in top[:5]:
             print(f"{info['nombre']} (ID: {id_j}) - Saldo: ${info['saldo']}")
 
     elif opcion == "2":
+        Despejar()
         id_j = input("Ingrese ID del jugador: ").strip().upper()
         if id_j in jugadores:
             print(f"\nHistorial de {jugadores[id_j]['nombre']}:")
@@ -62,6 +67,7 @@ def generar_reportes():
             print("Jugador no encontrado.")
 
     elif opcion == "3":
+        Despejar()
         print("\n--- Ranking por juegos ganados ---")
         ranking = sorted(jugadores.items(), key=lambda x: x[1]['estadisticas']['juegos_ganados'], reverse=True)
         for id_j, info in ranking[:5]:
@@ -69,12 +75,14 @@ def generar_reportes():
             print(f"{info['nombre']} (ID: {id_j}) - Juegos Ganados: {ganados}")
     
     elif opcion == "4":
+        Despejar()
         print("\n--- Jugadores con más juegos perdidos ---")
         ranking = sorted(jugadores.items(), key=lambda x: x[1]['estadisticas']['juegos_perdidos'], reverse=True)
         for id_j, info in ranking[:5]:
             print(f"{info['nombre']} (ID: {id_j}) - Juegos Perdidos: {info['estadisticas']['juegos_perdidos']}")
 
     elif opcion == "5":
+        Despejar()
         print("\n--- Juegos con mayor cantidad de participaciones ---")
         estadisticas = datos.get('estadisticas_juegos', {})
         ranking = sorted(estadisticas.items(), key=lambda x: x[1], reverse=True)
@@ -83,6 +91,7 @@ def generar_reportes():
 
     else:
         print("Opción no válida.")
+
 
 def main():
     while True:

@@ -1,5 +1,5 @@
 import json
-from utils import cargar_datos, guardar_datos
+from utils import cargar_datos, guardar_datos, Despejar
 
 def registrar_jugador():
     datos = cargar_datos()
@@ -58,14 +58,19 @@ def gestionar_jugadores():
         opcion = input("Seleccione una opción: ")
         
         if opcion == "1":
+            Despejar()
             registrar_jugador()
         elif opcion == "2":
+            Despejar()
             consultar_jugador()
         elif opcion == "3":
+            Despejar()
             modificar_jugador()
         elif opcion == "4":
+            Despejar()
             eliminar_jugador()
         elif opcion == "5":
+            Despejar()
             listar_jugadores()
         elif opcion == "6":
             break

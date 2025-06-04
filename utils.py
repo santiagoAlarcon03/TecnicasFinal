@@ -2,6 +2,7 @@ import json
 import os
 
 
+
 def cargar_datos():
     datos_iniciales = {
         'jugadores': {},
@@ -47,6 +48,9 @@ def cargar_datos():
 
     return datos
 
+def Despejar():
+    os.system('cls' if os.name == 'nt' else 'clear')
+
 def guardar_datos(datos):
     with open('datos.json', 'w') as f:
         json.dump(datos, f, indent=4)
@@ -56,6 +60,9 @@ def validar_id_unico(id_jugador):
     return id_jugador not in datos['jugadores']
 
 def serializar_datos(datos):
+
+
+
                                                                        #It prepares data to save in JSON
     datos_guardar = {
         'jugadores': {},
