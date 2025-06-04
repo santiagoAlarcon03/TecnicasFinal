@@ -55,6 +55,7 @@ def generar_reportes():
     print("3. Ranking por juegos ganados")
     print("4. Jugadores con más juegos perdidos")
     print("5. Juegos con mayor cantidad de participaciones")
+    print("6. Listar jugadores VIP")
 
     opcion = input("Seleccione una opción: ")
 
@@ -97,6 +98,20 @@ def generar_reportes():
         ranking = sorted(estadisticas.items(), key=lambda x: x[1], reverse=True)
         for juego, cantidad in ranking:  # Shows all available statistics
             print(f"{juego.capitalize()}: {cantidad} partidas jugadas")
+
+    elif opcion == "6":
+        Despejar()
+        print("\n--- Jugadores VIP  ---")
+        vip_jugadores = [j for j in jugadores.items() if j[1].get("VIP", False)]
+        
+        # Ordenar por apellido (última palabra del nombre)
+        vip_jugadores.sort(key=lambda x: x[1]['nombre'].split()[-1].lower())
+
+        for id_j, info in vip_jugadores:
+            print(f"{info['nombre']} (ID: {id_j}) - Saldo: ${info['saldo']} - VIP")
+
+        print(f"\nTotal de jugadores VIP: {len(vip_jugadores)}")
+
 
     else:
         print("Opción no válida.")  # Input validation

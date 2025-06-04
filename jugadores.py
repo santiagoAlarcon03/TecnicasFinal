@@ -39,7 +39,8 @@ def registrar_jugador():
             'juegos_ganados': 0,
             'juegos_perdidos': 0,
             'total_apostado': 0
-        }
+        },
+        'VIP': saldo >= 1000  # <- Nuevo campo agregado
     }
     
     datos['jugadores'][id_jugador] = nuevo_jugador
